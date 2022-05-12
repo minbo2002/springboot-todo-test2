@@ -9,7 +9,7 @@ public class TodoTest2Application {
     public static void main(String[] args) {
 
         SpringApplication.run(TodoTest2Application.class, args);
-        System.out.println("HELLO TODO");
+
     }
 
 }
