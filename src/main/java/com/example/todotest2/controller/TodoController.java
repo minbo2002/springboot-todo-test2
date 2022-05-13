@@ -5,12 +5,14 @@ import com.example.todotest2.dto.TodoResponse;
 import com.example.todotest2.entity.Todo;
 import com.example.todotest2.service.TodoService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @CrossOrigin
 @RequiredArgsConstructor
@@ -20,7 +22,7 @@ public class TodoController {
 
     @PostMapping(path = "post/create")
     public ResponseEntity<TodoResponse> create(@RequestBody TodoRequest todoRequest) {
-        System.out.println("CREATE");
+        log.info("CREATE");
 
         Todo todoCreate = todoService.add(todoRequest);
 
@@ -29,7 +31,7 @@ public class TodoController {
 
     @GetMapping(path = "get/readOne/{id}")
     public ResponseEntity<TodoResponse> readOne(@PathVariable Long id) {
-        System.out.println("READ ONE");
+        log.info("READ ONE");
 
         Todo todoReadOne = todoService.searchById(id);
 
@@ -38,7 +40,7 @@ public class TodoController {
 
     @GetMapping(path = "get/readAll")
     public ResponseEntity<List<TodoResponse>> readAll() {
-        System.out.println("READ ALL");
+        log.info("READ ALL");
 
         List<Todo> todoReadAll = todoService.searchAll();
 
@@ -48,7 +50,7 @@ public class TodoController {
     @PutMapping(path = "put/update/{id}")
     public ResponseEntity<TodoResponse> update(@PathVariable Long id,
                                                @RequestBody TodoRequest todoRequest) {
-        System.out.println("UPDATE");
+        log.info("UPDATE");
 
         Todo todoUpdate = todoService.updateById(id, todoRequest);
 
@@ -57,7 +59,7 @@ public class TodoController {
 
     @DeleteMapping("delete/deleteOne/{id}")
     public ResponseEntity<?> deleteOne(@PathVariable Long id) {
-        System.out.println("DELETE ONE");
+        log.info("DELETE ONE");
 
         todoService.deleteById(id);
 
@@ -66,7 +68,7 @@ public class TodoController {
 
     @DeleteMapping(path = "delete/deleteAll")
     public ResponseEntity<?> deleteAll() {
-        System.out.println("DELETE ALL");
+        log.info("DELETE ALL");
 
         todoService.deleteAll();
 
