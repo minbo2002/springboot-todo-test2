@@ -4,7 +4,6 @@ import com.example.todotest2.dto.TodoRequest;
 import com.example.todotest2.dto.TodoResponse;
 import com.example.todotest2.entity.Todo;
 import com.example.todotest2.service.TodoService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,8 +23,6 @@ public class TodoController {
         System.out.println("CREATE");
 
         Todo todoCreate = todoService.add(todoRequest);
-
-        // ResponseEntity<TodoResponse> 반환이름 = new ResponseEntity(todoCreate, HttpStatus.CREATED);
 
         return new ResponseEntity(todoCreate, HttpStatus.CREATED);
     }

@@ -1,11 +1,15 @@
 package com.example.todotest2.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Data
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class Todo {
 
     @Id
@@ -20,4 +24,5 @@ public class Todo {
 
     @Column(nullable = false)
     private Boolean completed;
+
 }
