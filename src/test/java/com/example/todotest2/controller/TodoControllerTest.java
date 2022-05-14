@@ -57,10 +57,10 @@ class TodoControllerTest {
         ObjectMapper mapper = new ObjectMapper();
         String content = mapper.writeValueAsString(todoRequest);
 
-        this.mvc.perform(post("/").
+        this.mvc.perform(post("/post/create").
                 contentType(MediaType.APPLICATION_JSON).
                 content(content)).
-                andExpect(status().isOk())
+                andExpect(status().isCreated())
                 .andExpect(jsonPath("$.title").value("another title"));
 
     }

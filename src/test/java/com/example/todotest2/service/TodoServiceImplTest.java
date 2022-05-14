@@ -1,8 +1,10 @@
 package com.example.todotest2.service;
 
 import com.example.todotest2.dto.TodoRequest;
+import com.example.todotest2.dto.TodoResponse;
 import com.example.todotest2.entity.Todo;
 import com.example.todotest2.repository.TodoRepository;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.AdditionalAnswers;
@@ -11,8 +13,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -26,7 +30,7 @@ class TodoServiceImplTest {
     private TodoRepository todoRepository;
 
     @InjectMocks
-    private TodoServiceImpl todoServiceImpl;
+    private TodoServiceImpl todoService;
 
     @Test
     void add() {
@@ -37,11 +41,15 @@ class TodoServiceImplTest {
 
         TodoRequest expected = new TodoRequest();
         expected.setTitle("test title");
+        expected.setOrder(1L);
+        expected.setCompleted(false);
 
-        Todo actual = todoServiceImpl.add(expected);
+        Todo actual = todoService.add(expected);
 
         // then
         assertEquals(expected.getTitle(), actual.getTitle());
+        assertEquals(expected.getOrder(), actual.getOrder());
+        assertEquals(expected.getCompleted(), actual.getCompleted());
     }
 
     @Test
@@ -56,11 +64,11 @@ class TodoServiceImplTest {
 
         Optional<Todo> optional = Optional.of(todo);
 
-        given(this.todoRepository.findById(anyLong()))
+        given(todoRepository.findById(anyLong()))
             .willReturn(optional);
 
         // when
-        Todo actual = todoServiceImpl.searchById(123L);
+        Todo actual = todoService.searchById(123L);
 
         Todo expected = optional.get();
 
@@ -74,13 +82,38 @@ class TodoServiceImplTest {
     @Test
     public void searchByIdFailed() {
         // given
-        given(this.todoRepository.findById(anyLong()))
+        given(todoRepository.findById(anyLong()))
                 .willReturn(Optional.empty());
         // when
         // then
         assertThrows(ResponseStatusException.class, () -> {
-                this.todoServiceImpl.searchById(123L);
+            todoService.searchById(123L);
 
         });
+    }
+
+    @Test
+    public void searchAll() {
+        // given
+        Todo todo = new Todo();
+        todo.setId(1L);
+        todo.setTitle("all_title");
+        todo.setOrder(10L);
+        todo.setCompleted(true);
+
+        Todo todo1 = new Todo();
+        todo1.setId(2L);
+        todo1.setTitle("all_title2");
+        todo1.setOrder(12L);
+        todo1.setCompleted(true);
+
+        given(todoRepository.findAll())
+                .willReturn(List.of(todo, todo1));
+
+        // when
+        List<Todo> list = todoService.searchAll();
+        // then
+        assertThat(list).isNotNull();
+        assertThat(list.size()).isEqualTo(2);
     }
 }
