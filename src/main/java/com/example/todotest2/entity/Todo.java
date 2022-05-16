@@ -1,15 +1,16 @@
 package com.example.todotest2.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Data
+
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@ToString
+@Builder
 public class Todo {
 
     @Id

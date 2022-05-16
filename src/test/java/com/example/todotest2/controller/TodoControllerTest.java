@@ -30,11 +30,12 @@ class TodoControllerTest {
 
     @BeforeEach
     void setup() {
-        this.todo = new Todo();
-        todo.setId(123l);
-        todo.setTitle("test title");
-        todo.setOrder(0L);
-        todo.setCompleted(false);
+        todo = Todo.builder()
+                   .id(123L)
+                   .title("test title")
+                   .order(0L)
+                   .completed(false)
+                   .build();
     }
 
     @Test

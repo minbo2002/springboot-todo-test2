@@ -56,11 +56,12 @@ class TodoServiceImplTest {
     void searchById() {
 
         // given
-        Todo todo = new Todo();
-        todo.setId(123L);
-        todo.setTitle("title");
-        todo.setOrder(0L);
-        todo.setCompleted(false);
+        Todo todo = Todo.builder()
+                        .id(123L)
+                        .title("title")
+                        .order(0L)
+                        .completed(false)
+                        .build();
 
         Optional<Todo> optional = Optional.of(todo);
 
@@ -95,17 +96,19 @@ class TodoServiceImplTest {
     @Test
     public void searchAll() {
         // given
-        Todo todo = new Todo();
-        todo.setId(1L);
-        todo.setTitle("all_title");
-        todo.setOrder(10L);
-        todo.setCompleted(true);
+        Todo todo = Todo.builder()
+                        .id(1L)
+                        .title("all_title")
+                        .order(10L)
+                        .completed(true)
+                        .build();
 
-        Todo todo1 = new Todo();
-        todo1.setId(2L);
-        todo1.setTitle("all_title2");
-        todo1.setOrder(12L);
-        todo1.setCompleted(true);
+        Todo todo1 = Todo.builder()
+                         .id(2L)
+                         .title("all_title2")
+                         .order(12L)
+                         .completed(true)
+                         .build();
 
         given(todoRepository.findAll())
                 .willReturn(List.of(todo, todo1));
