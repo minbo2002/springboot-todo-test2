@@ -1,6 +1,7 @@
 package com.example.todotest2.service;
 
 import com.example.todotest2.dto.TodoRequest;
+import com.example.todotest2.dto.TodoResponse;
 import com.example.todotest2.entity.Todo;
 
 import com.example.todotest2.repository.TodoRepository;
@@ -9,10 +10,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class TodoServiceImpl implements TodoService{
 
     private final TodoRepository todoRepository;
@@ -20,14 +23,24 @@ public class TodoServiceImpl implements TodoService{
     @Override
     public Todo add(TodoRequest todoRequest) {
 
-        Todo todo = new Todo();
-        todo.setTitle(todoRequest.getTitle());
-        todo.setOrder(todoRequest.getOrder());
-        todo.setCompleted(todoRequest.getCompleted());
+//        Todo todo = new Todo();
+//        todo.setTitle(todoRequest.getTitle());
+//        todo.setOrder(todoRequest.getOrder());
+//        todo.setCompleted(todoRequest.getCompleted());
+//
+//        Todo saveToEntity = todoRepository.save(todo);
+//
+//        return saveToEntity;
 
-        Todo saveToEntity = todoRepository.save(todo);
+         Todo todo = Todo.builder()
+                .title(todoRequest.getTitle())
+                .order(todoRequest.getOrder())
+                .completed(todoRequest.getCompleted())
+                .build();
 
-        return saveToEntity;
+         Todo savedTodoAdd = todoRepository.save(todo);
+
+         return savedTodoAdd;
     }
 
     @Override
@@ -53,13 +66,21 @@ public class TodoServiceImpl implements TodoService{
         Todo todoSearchById = todoRepository.findById(id)
                         .orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-        todoSearchById.setTitle(todoRequest.getTitle());
-        todoSearchById.setOrder(todoRequest.getOrder());
-        todoSearchById.setCompleted(todoRequest.getCompleted());
+//        todoSearchById.setTitle(todoRequest.getTitle());
+//        todoSearchById.setOrder(todoRequest.getOrder());
+//        todoSearchById.setCompleted(todoRequest.getCompleted());
+//
+//        Todo saveToEntity = todoRepository.save(todoSearchById);
+//
+//        return saveToEntity;
 
-        Todo saveToEntity = todoRepository.save(todoSearchById);
+        todoSearchById.getTitle();
+        todoSearchById.getOrder();
+        todoSearchById.getCompleted();
 
-        return saveToEntity;
+        Todo savedTodoUpdate = todoRepository.save(todoSearchById);
+
+        return savedTodoUpdate;
     }
 
     @Override
